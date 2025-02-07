@@ -1,0 +1,48 @@
+- name: Ensure xconf package is installed
+  ansible.builtin.apt:
+    name: xfconf
+    state: present
+
+- name: Ensure xconf-query package is installed
+  ansible.builtin.apt:
+    name: xfconf-query
+    state: present
+
+- name: Ensure lightdm package is installed
+  ansible.builtin.apt:
+    name: lightdm
+    state: present
+
+- name: Ensure lightdm-gtk-greeter package is installed
+  ansible.builtin.apt:
+    name: lightdm-gtk-greeter
+    state: present
+
+- name: Copy over lock screen vault image
+  ansible.builtin.copy:
+    src: vault.jpg
+    dest: /usr/share/lightdm/kali-lock.jpg
+  become: true
+
+- name: Copy over desktop inside vault image
+  ansible.builtin.copy:
+    src: inside_vault.jpg
+    dest: /usr/share/backgrounds/xfce/inside_vault.jpg
+ 
+- name: Set wallpaper for XFCE desktop
+  ansible.builtin.command:
+    cmd: xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set /usr/share/backgrounds/xfce/inside_vault.jpg
+
+- name: Set wallpaper for lock screen via LightDM
+  lineinfile:
+    path: /etc/lightdm/lightdm-gtk-greeter.conf
+    regexp: '^background='
+    line: 'background=/usr/share/lightdm/kali-lock.jpg'
+    create: yes
+
+- name: Restart LightDM
+  systemd:
+    name: lightdm
+    state: restarted
+
+  

@@ -1,0 +1,14 @@
+- name: Change kali user shell to bash
+  ansible.builtin.user:
+    name: kali
+    shell: /bin/bash
+
+- name: Copy over bashrc
+  ansible.builtin.copy:
+    src: bashrc
+    dest: /home/kali/.bashrc
+    remote_src: yes
+    owner: kali
+    group: kali
+    mode: '0644'
+
