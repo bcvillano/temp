@@ -3,11 +3,6 @@
     name: xfconf
     state: present
 
-- name: Ensure xconf-query package is installed
-  ansible.builtin.apt:
-    name: xfconf-query
-    state: present
-
 - name: Ensure lightdm package is installed
   ansible.builtin.apt:
     name: lightdm
@@ -31,7 +26,7 @@
  
 - name: Set wallpaper for XFCE desktop
   ansible.builtin.command:
-    cmd: xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set /usr/share/backgrounds/xfce/inside_vault.jpg
+    cmd: xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/last-image --set /usr/share/backgrounds/xfce/inside_vault.jpg
 
 - name: Set wallpaper for lock screen via LightDM
   lineinfile:
@@ -39,10 +34,5 @@
     regexp: '^background='
     line: 'background=/usr/share/lightdm/kali-lock.jpg'
     create: yes
-
-- name: Restart LightDM
-  systemd:
-    name: lightdm
-    state: restarted
 
   

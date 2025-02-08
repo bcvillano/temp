@@ -1,0 +1,9 @@
+- name: Refresh XFCE desktop
+  ansible.builtin.command:
+    cmd: xfdesktop --reload
+  changed_when: false
+
+- name: Restart LightDM
+  systemd:
+    name: lightdm
+    state: restarted

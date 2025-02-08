@@ -1,6 +1,9 @@
 - name: Update wallpaper and lock screen image
   include_tasks: update_wallpaper.yml
 
-- name: Copy over configuration files
+- name: More minor config tasks
   include_tasks: config_tasks.yml
+
+- name: Restart stuff
+  include_tasks: restarts.yml
 

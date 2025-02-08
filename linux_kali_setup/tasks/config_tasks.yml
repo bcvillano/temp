@@ -3,12 +3,11 @@
     name: kali
     shell: /bin/bash
 
-- name: Copy over bashrc
-  ansible.builtin.copy:
-    src: bashrc
-    dest: /home/kali/.bashrc
-    remote_src: yes
-    owner: kali
-    group: kali
-    mode: '0644'
+- name: Set XFCE Terminal to Green on Black
+  ansible.builtin.shell: |
+    xfconf-query -c xfce4-terminal -p /background-color -s "#000000"
+    xfconf-query -c xfce4-terminal -p /foreground-color -s "#00FF00"
+    xfconf-query -c xfce4-terminal -p /color-palette -s "#000000;#00FF00;#000000;#00FF00;#000000;#00FF00;#000000;#00FF00"
+  changed_when: false
+
 
