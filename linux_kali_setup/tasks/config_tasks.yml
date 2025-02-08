@@ -3,11 +3,15 @@
     name: kali
     shell: /bin/bash
 
-- name: Set XFCE Terminal to Green on Black
-  ansible.builtin.shell: |
-    xfconf-query -c xfce4-terminal -p /background-color -s "#000000"
-    xfconf-query -c xfce4-terminal -p /foreground-color -s "#00FF00"
-    xfconf-query -c xfce4-terminal -p /color-palette -s "#000000;#00FF00;#000000;#00FF00;#000000;#00FF00;#000000;#00FF00"
-  changed_when: false
+- name: Set XFCE Terminal background and foreground colors
+  lineinfile:
+    path: ~/.config/xfce4/terminal/terminalrc
+    create: yes
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { regexp: '^BackgroundColor=', line: 'BackgroundColor=#000000' }
+    - { regexp: '^ForegroundColor=', line: 'ForegroundColor=#00FF00' }
+    - { regexp: '^ColorPalette=', line: 'ColorPalette=#000000;#00FF00;#000000;#00FF00;#000000;#00FF00;#000000;#00FF00' }
 
 
